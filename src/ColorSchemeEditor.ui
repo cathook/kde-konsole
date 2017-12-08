@@ -42,6 +42,13 @@
     </widget>
    </item>
    <item>
+    <widget class="QCheckBox" name="intenseBoldEscCodeCheck">
+     <property name="text">
+      <string>Apply intensive colors for the escape code \e[1m</string>
+     </property>
+    </widget>
+   </item>
+   <item>
     <layout class="QHBoxLayout">
      <item>
       <widget class="QLabel" name="transparencyLabel">

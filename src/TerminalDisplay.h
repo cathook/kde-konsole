@@ -432,6 +432,22 @@ public:
     }
 
     /**
+     * Specifies whether bold characters should be rendered in the intensive color.
+     */
+    void setIntenseBoldCharacters(bool value)
+    {
+        _intenseBoldCharacters = value;
+    }
+
+    /**
+     * Returns true if bold characters should be rendered in the intensive color.
+     */
+    bool getIntenseCharacters() const
+    {
+        return _intenseBoldCharacters;
+    }
+
+    /**
      * Specifies whether line characters will be displayed using font instead
      * of builtin code.
      * as bold. Defaults to false.
@@ -784,7 +800,7 @@ private:
                         const Character *style, bool invertCharacterColor);
     // draws a string of line graphics
     void drawLineCharString(QPainter &painter, int x, int y, const QString &str,
-                            const Character *attributes);
+                            bool isBold);
 
     // draws the preedit string for input methods
     void drawInputMethodPreeditString(QPainter &painter, const QRect &rect);
@@ -854,6 +870,7 @@ private:
     int _fontWidth;      // width
     int _fontAscent;      // ascend
     bool _boldIntense;   // Whether intense colors should be rendered with bold font
+    bool _intenseBoldCharacters;   // Whether to use the intensive colors for bold characters
 
     int _leftMargin;    // offset
     int _topMargin;    // offset

@@ -91,3 +91,4 @@ Color=106,119,121
 [General]
 Description=Solarized
 Opacity=1
+IntenseBoldEscCode=false

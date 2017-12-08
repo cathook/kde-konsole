@@ -149,6 +149,11 @@ public:
     void setFaint();
 
     /**
+     * Returns true if the color is an intensive system color.
+     */
+    bool isIntensive() const;
+
+    /**
      * Returns the color within the specified color @p palette
      *
      * The @p palette is only used if this color is one of the 16 system colors, otherwise
@@ -247,6 +252,11 @@ inline void CharacterColor::setFaint()
     if (_colorSpace == COLOR_SPACE_SYSTEM || _colorSpace == COLOR_SPACE_DEFAULT) {
         _v = 2;
     }
+}
+
+inline bool CharacterColor::isIntensive() const
+{
+    return (_colorSpace == COLOR_SPACE_SYSTEM && _v == 1);
 }
 }
 

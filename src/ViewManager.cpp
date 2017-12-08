@@ -878,6 +878,7 @@ void ViewManager::applyProfileToView(TerminalDisplay *view, const Profile::Ptr p
     // load font
     view->setAntialias(profile->antiAliasFonts());
     view->setBoldIntense(profile->boldIntense());
+    view->setIntenseBoldCharacters(colorScheme->intenseBoldEscCode());
     view->setUseFontLineCharacters(profile->useFontLineCharacters());
     view->setVTFont(profile->font());
 

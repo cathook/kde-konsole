@@ -649,11 +649,11 @@ static void drawOtherChar(QPainter& paint, int x, int y, int w, int h, uchar cod
 }
 
 void TerminalDisplay::drawLineCharString(QPainter& painter, int x, int y, const QString& str,
-        const Character* attributes)
+        bool isBold)
 {
     const QPen& originalPen = painter.pen();
 
-    if (((attributes->rendition & RE_BOLD) != 0) && _boldIntense) {
+    if (isBold) {
         QPen boldPen(originalPen);
         boldPen.setWidth(3);
         painter.setPen(boldPen);
@@ -815,8 +815,18 @@ void TerminalDisplay::drawCharacters(QPainter& painter,
     if ((style->rendition & RE_CONCEAL) != 0)
         return;
 
+    CharacterColor textColor = (invertCharacterColor ? style->backgroundColor : style->foregroundColor);
+
+    // set to the intensive color if the user want konsole to display bold characters
+    // with intensive colors
+    if (((style->rendition & RE_BOLD) != 0) && _intenseBoldCharacters) {
+      textColor.setIntensive();
+    }
+
     // setup bold and underline
-    bool useBold = (((style->rendition & RE_BOLD) != 0) && _boldIntense) || font().bold();
+    const bool useBold = ((style->rendition & RE_BOLD) != 0)
+            || (_boldIntense && textColor.isIntensive())
+            || font().bold();
     const bool useUnderline = ((style->rendition & RE_UNDERLINE) != 0) || font().underline();
     const bool useItalic = ((style->rendition & RE_ITALIC) != 0) || font().italic();
     const bool useStrikeOut = ((style->rendition & RE_STRIKEOUT) != 0) || font().strikeOut();
@@ -837,7 +847,6 @@ void TerminalDisplay::drawCharacters(QPainter& painter,
     }
 
     // setup pen
-    const CharacterColor& textColor = (invertCharacterColor ? style->backgroundColor : style->foregroundColor);
     const QColor color = textColor.color(_colorTable);
     QPen pen = painter.pen();
     if (pen.color() != color) {
@@ -847,7 +856,7 @@ void TerminalDisplay::drawCharacters(QPainter& painter,
 
     // draw text
     if (isLineCharString(text) && !_useFontLineCharacters) {
-        drawLineCharString(painter, rect.x(), rect.y(), text, style);
+        drawLineCharString(painter, rect.x(), rect.y(), text, useBold);
     } else {
         // Force using LTR as the document layout for the terminal area, because
         // there is no use cases for RTL emulator and RTL terminal application.

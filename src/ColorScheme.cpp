@@ -163,6 +163,7 @@ ColorScheme::ColorScheme() :
     _name(QString()),
     _table(nullptr),
     _randomTable(nullptr),
+    _intenseBoldEscCode(false),
     _opacity(1.0),
     _wallpaper(nullptr)
 {
@@ -172,6 +173,7 @@ ColorScheme::ColorScheme() :
 ColorScheme::ColorScheme(const ColorScheme &other) :
     _table(nullptr),
     _randomTable(nullptr),
+    _intenseBoldEscCode(other._intenseBoldEscCode),
     _opacity(other._opacity),
     _wallpaper(other._wallpaper)
 {
@@ -306,6 +308,16 @@ void ColorScheme::setRandomizedBackgroundColor(bool randomize)
     }
 }
 
+bool ColorScheme::intenseBoldEscCode() const
+{
+    return _intenseBoldEscCode;
+}
+
+void ColorScheme::setIntenseBoldEscCode(bool enabled)
+{
+    _intenseBoldEscCode = enabled;
+}
+
 void ColorScheme::setRandomizationRange(int index, quint16 hue, quint8 saturation, quint8 value)
 {
     Q_ASSERT(hue <= MAX_HUE);
@@ -365,6 +377,7 @@ void ColorScheme::read(const KConfig &config)
     _description = i18n(schemeDescription.toUtf8().constData());
     _opacity = configGroup.readEntry("Opacity", 1.0);
     setWallpaper(configGroup.readEntry("Wallpaper", QString()));
+    _intenseBoldEscCode = configGroup.readEntry("IntenseBoldEscCode", true);
 
     for (int i = 0; i < TABLE_COLORS; i++) {
         readColorEntry(config, i);
@@ -401,6 +414,7 @@ void ColorScheme::write(KConfig &config) const
     configGroup.writeEntry("Description", _description);
     configGroup.writeEntry("Opacity", _opacity);
     configGroup.writeEntry("Wallpaper", _wallpaper->path());
+    configGroup.writeEntry("IntenseBoldEscCode", _intenseBoldEscCode);
 
     for (int i = 0; i < TABLE_COLORS; i++) {
         writeColorEntry(config, i);

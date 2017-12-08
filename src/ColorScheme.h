@@ -165,6 +165,16 @@ public:
     /** Returns true if the background color is randomized. */
     bool randomizedBackgroundColor() const;
 
+    /**
+     * Enables to use intensive colors for the \e[1m escape code.
+     */
+    void setIntenseBoldEscCode(bool enabled);
+
+    /** Returns true if this scheme want to use intensive colors for the
+     * \e[1m escape code.
+     */
+    bool intenseBoldEscCode() const;
+
     static const ColorEntry defaultTable[]; // table of default color entries
 
     static QString colorNameForIndex(int index);
@@ -216,6 +226,10 @@ private:
     // pointer to randomization table, or 0 if no colors in the color
     // scheme support randomization
     RandomizationRange *_randomTable;
+
+    // true if this scheme want to use intensive colors for the \e[1m escape
+    // code
+    bool _intenseBoldEscCode;
 
     qreal _opacity;
 

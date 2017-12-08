@@ -96,6 +96,10 @@ ColorSchemeEditor::ColorSchemeEditor(QWidget *aParent) :
     connect(_ui->randomizedBackgroundCheck, &QCheckBox::toggled, this,
             &Konsole::ColorSchemeEditor::setRandomizedBackgroundColor);
 
+    // intense bold escape code
+    connect(_ui->intenseBoldEscCodeCheck, &QCheckBox::toggled, this,
+            &Konsole::ColorSchemeEditor::setIntenseBoldEscCode);
+
     // wallpaper stuff
     auto dirModel = new QFileSystemModel(this);
     dirModel->setFilter(QDir::AllEntries);
@@ -252,6 +256,11 @@ void ColorSchemeEditor::setRandomizedBackgroundColor(bool randomize)
     _colors->setRandomizedBackgroundColor(randomize);
 }
 
+void ColorSchemeEditor::setIntenseBoldEscCode(bool enabled)
+{
+     _colors->setIntenseBoldEscCode(enabled);
+}
+
 void ColorSchemeEditor::setup(const ColorScheme *scheme, bool isNewScheme)
 {
     _isNewScheme = isNewScheme;
@@ -280,6 +289,9 @@ void ColorSchemeEditor::setup(const ColorScheme *scheme, bool isNewScheme)
 
     // randomized background color checkbox
     _ui->randomizedBackgroundCheck->setChecked(scheme->randomizedBackgroundColor());
+
+    // intense bold escape code checkbox
+    _ui->intenseBoldEscCodeCheck->setChecked(scheme->intenseBoldEscCode());
 
     // wallpaper stuff
     _ui->wallpaperPath->setText(scheme->wallpaper()->path());

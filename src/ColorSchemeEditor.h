@@ -78,6 +78,7 @@ public Q_SLOTS:
 private Q_SLOTS:
     void setTransparencyPercentLabel(int percent);
     void setRandomizedBackgroundColor(bool randomized);
+    void setIntenseBoldEscCode(bool enabled);
     void editColorItem(QTableWidgetItem *item);
     void wallpaperPathChanged(const QString &path);
     void selectWallpaper();
